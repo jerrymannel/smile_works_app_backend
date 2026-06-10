@@ -2,6 +2,8 @@ const schema = require("mongoose").Schema;
 
 const patientSchema = {
 	_id: { type: String, required: true },
+	password: { type: String },
+	salt: { type: String },
 	name: { type: String, required: true, },
 	dob: { type: String, required: true },
 	allergies: { type: String },

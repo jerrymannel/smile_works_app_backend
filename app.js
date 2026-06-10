@@ -28,6 +28,7 @@ const billingRouter = require("./routes/routes.billing");
 const appointmentRouter = require("./routes/routes.appointment");
 
 const vendorsRouter = require("./routes/routes.vendors");
+const patientPortalRouter = require("./routes/routes.patientPortal");
 
 // Store blacklisted tokens in memory
 const blacklistedTokens = new Set();
@@ -36,7 +37,12 @@ const clinicRouter = require("./routes/routes.clinic");
 
 // Middleware for protecting routes (except login and logout)
 app.use(function (req, res, next) {
-    if (req.path.startsWith("/api/auth/login") || req.path.startsWith("/api/auth/logout")) {
+    if (
+        req.path.startsWith("/api/auth/login") ||
+        req.path.startsWith("/api/auth/logout") ||
+        req.path.startsWith("/api/patient-portal/login") ||
+        req.path.startsWith("/api/patient-portal/register")
+    ) {
         next();
         return;
     }
@@ -98,6 +104,7 @@ app.use((req, res, next) => {
     app.use("/api/billing", billingRouter);
     app.use("/api/appointment", appointmentRouter);
     app.use("/api/vendors", vendorsRouter);
+    app.use("/api/patient-portal", patientPortalRouter);
 
     app.listen(init.PORT, async () => {
         logger.info(`Server is running on port ${init.PORT}`);
